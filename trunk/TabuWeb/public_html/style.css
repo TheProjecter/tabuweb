@@ -1,0 +1,52 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	background-color: #ddddff;
+	font-family: "Andalus";
+}
+
+#head {
+	margin-bottom: 20px;
+	background-image: url("images/head.png");
+	width: 1000px;
+	border: 10px;
+	border-color: gray;
+	border-style: double;
+	padding: 30px;
+	padding-bottom: 0px;
+}
+
+#head #table_head {
+	width: 1000px;
+}
+
+#head #title #name {
+	text-decoration: overline;
+	font-family: "Agency FB";
+	font-weight: bold;
+	font-size: 80px;
+}
+#head #title #description {
+	font-size: 20px;
+	font-style: italic;
+	font-weight: lighter;
+	color: #555555;
+}
+
+#head #identification {
+	text-align: right;
+}
+#head #configuration {
+	text-align: right;
+}
+
+#head ul {
+	margin: 0;
+	padding: 10px 10px 0 50px;
+	list-style: none;
+}
+#head li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}

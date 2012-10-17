@@ -50,3 +50,10 @@ body {
 	margin: 0;
 	padding: 0;
 }
+
+#head #control_button {
+	font-family: "Agency FB";
+	font-weight: bold;
+	font-size: 30px;
+	color: #228888
+}

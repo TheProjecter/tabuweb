@@ -1,47 +1,101 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<script type="text/javascript" src="actions.js"></script>
-	<title>TabuWeb</title>
-</head>	
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="style.css">
+<script type="text/javascript" src="actions.js"></script>
+<title>TabuWeb</title>
+</head>
 <body>
-	<div id="head">
-		<table id="table_head">
-			<tr>
-				<td>
-					<div id="title">
-						<div id="name"><a href="#" style="text-decoration:none">TabuWeb</a></div>
-						<div id="description">Trabalho Prático de Tecnologias Web</div>
-					</div>
-				</td>
-				<td align="right" valign="top">
-					<ul>
-						<li>
-							<div id="identification">
-								<div id="submit_name">
-									<input type="text" id="user_name" value="digite seu nome" />
-									<input type="submit" id="submit_button" onclick="receiveUserName(user_name.value)" value="OK" />
-								</div>
-							</div>					
-						</li>
-					</ul>
-				</td>
-				<td align="right" valign="top">
-					<ul>
-						<li>
-							<div id="configuration">
-								<a style="text-decoration:none" onclick="window.open('config.html','Info','status=yes,scrollbars=yes,resizable=yes,width=300,height=450,left=800,top=47');" href="javascript:void(0)">Configurações</a>
+	<div id="page">
+		<div id="head">
+			<table id="table_head">
+				<tr>
+					<td>
+						<div id="title">
+							<div id="name">
+								<a href="index.html" style="text-decoration: none">TabuWeb</a>
 							</div>
-						</li>
-					</ul>
-					
-					<div align="right" id="control_button" onclick="startStopGame()">START</div>
-				</td>
-			</tr>
-		</table>
+							<div id="description">Trabalho Prático de Tecnologias Web</div>
+						</div>
+					</td>
+					<td align="right" valign="top">
+						<ul>
+							<li>
+								<div id="configuration" onmouseover="showConfigurations()"
+									onmouseout="hideConfigurations()">
+									<a id="configuration_button" href="javascript: void(0)"
+										style="text-decoration: none"> <!-- onclick="window.open('config.html', 'Info', 'status=yes,scrollbars=yes,resizable=yes,width=300,height=450,left=800,top=47')"> -->
+										Configurações
+									</a>
+
+									<table id="configuration_popup">
+										<tbody>
+											<tr>
+												<td>
+													<div>
+														<form>
+														<p>
+															Escolha um nivel de dificuldade <select	name="dificuldade" onchange="">
+																<option value="1" selected>Facil</option>
+																<option value="2">Médio</option>
+																<option value="3">Dificil</option>
+																<option value="4">Brutal</option>
+															</select>
+														</p>
+														<p>Escolha as operações</p>
+															<input type="checkbox" name="operação" value="+" checked>Soma<br>
+															<input type="checkbox" name="operação" value="-" checked>Subtração<br>
+															<input type="checkbox" name="operação" value="*" checked>Multiplicação<br>
+															<input type="checkbox" name="operação" value="/" checked>Divisão
+														<br />
+														<p>
+															Modo de jogo <select name="modojogo" onchange="">
+																<option value="0" selected>Offline</option>
+																<option value="1">Multiplayer</option>
+															</select>
+														</p>
+														<p>
+															Escolha o cenario <select name="cenario" onchange="">
+																<option value="1" selected>1</option>
+																<option value="2">2</option>
+																<option value="3">3</option>
+																<option value="4">4</option>
+															</select>
+														</p>
+														<input type="submit" value="OK">
+														</form>
+
+
+
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+							</li>
+							<li>
+								<div id="identification">
+									<div id="submit_name">
+										<input type="text" id="user_name" value="digite seu nome" />
+										<input type="submit" id="submit_button"
+											onclick="receiveUserName(user_name.value)" value="OK" />
+									</div>
+								</div>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<div align="right" id="control_button" onclick="startStopGame()">START</div>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
-	
 </body>
 </html>

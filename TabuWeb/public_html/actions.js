@@ -1,9 +1,8 @@
-
 /*
  * Função que substitui o formulário de sumbissão do nome de usuário pelo próprio nome recebido.
  */
 function receiveUserName(name) {
-	document.getElementById("submit_name").innerHTML = name;
+	document.getElementById("submit_name").innerHTML = name + " |";
 }
 
 /*
@@ -20,4 +19,13 @@ function startStopGame() {
 	} else {
 		alert("Opção inválida: " + option);
 	}
+}
+
+function showConfigurations() {
+	if (document.getElementById("control_button").innerHTML == "START") {
+		document.getElementById("configuration_popup").style.visibility="visible";
+	}
+}
+function hideConfigurations() {
+	document.getElementById("configuration_popup").style.visibility="hidden";
 }

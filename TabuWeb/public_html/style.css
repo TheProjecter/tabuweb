@@ -5,6 +5,14 @@ body {
 	font-family: "Andalus";
 }
 
+#page {
+	width: 1100px;
+	margin: 0px; margin-left : auto;
+	margin-right: auto;
+	margin-left: auto; margin-right : auto;
+	background: aqua;
+}
+
 #head {
 	margin-bottom: 20px;
 	background-image: url("images/head.png");
@@ -12,8 +20,8 @@ body {
 	border: 10px;
 	border-color: gray;
 	border-style: double;
-	padding: 30px;
-	padding-bottom: 0px;
+	padding-left: 50px;
+	padding-right: 30px;
 }
 
 #head #table_head {
@@ -21,11 +29,13 @@ body {
 }
 
 #head #title #name {
+	padding-top: 40px;
 	text-decoration: overline;
 	font-family: "Agency FB";
 	font-weight: bold;
 	font-size: 80px;
 }
+
 #head #title #description {
 	font-size: 20px;
 	font-style: italic;
@@ -36,24 +46,39 @@ body {
 #head #identification {
 	text-align: right;
 }
-#head #configuration {
-	text-align: right;
-}
 
 #head ul {
 	margin: 0;
 	padding: 10px 10px 0 50px;
 	list-style: none;
+	position: relative;
 }
+
 #head li {
 	display: inline;
 	margin: 0;
 	padding: 0;
+	float: right;
+	padding: 5px;
 }
 
 #head #control_button {
 	font-family: "Agency FB";
 	font-weight: bold;
 	font-size: 30px;
-	color: #228888
+	color: #228888;
+	text-align: right;
+	cursor: default;
+}
+
+#head #configuration #configuration_popup {
+	visibility: hidden;
+	position: absolute;
+	float: left;
+	background: #51d4d2;
+	border: 5px;
+	border-style: double;
+	border-color: #11b0ae;
+	padding: 10px;
+	padding-bottom: 50px;
 }

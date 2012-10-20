@@ -2,11 +2,11 @@
 
 body {
 	background-color: #ddddff;
-	font-family: "Andalus";
-	
+	font-family: Tahoma, Geneva, sans-serif;
 	margin:0;
 	padding:0;
-	text-align:center; 
+	text-align:center;
+	font-size: 18px;
 }
 
 #page {
@@ -20,20 +20,20 @@ body {
 }
 
 #head {
-	margin-bottom: 20px;
 	background-image: url("images/head.png");
 	width: 900px;
 	border: 10px;
 	border-color: gray;
 	border-style: double;
-	padding-left: 50px;
-	padding-right: 30px;
+	padding-left: 40px;
+	padding-right: 40px;
 }
 
 #head #table_head {
 	width: 900px;
 	height: 60px;
 	position: relative;
+	font-size: 16px;
 }
 
 #head #title #name {
@@ -129,11 +129,18 @@ body {
 #field #zumbie_4{ top:350px; left: 10px;}
 
 #game #calc{
-	float: left;
-	text-align:right;
-	width: 200px; 
-	height:500px; 
-	background:#666; 
-	position:relative; 
+	float: right;
+	text-align:left;
+	width: 200px;
+	height:500px;
+	background:#666;
+	position:relative;
 	overflow:hidden;
+}
+
+
+#page #game #calc p {
+	margin:10px;
+	margin-top:30px;
+	text-align: left;
 }

@@ -84,6 +84,7 @@ body {
 }
 
 #head #configuration #configuration_popup {
+	z-index: 300;
 	width: 250px;
 	visibility: hidden;
 	position: absolute;
@@ -94,16 +95,26 @@ body {
 	border-color: #11b0ae;
 }
 
-#field{
+#game{
+	text-align:right;
+	width: 1000px; 
+	height:500px; 
+	background:#111; 
+	position:relative; 
+	overflow:hidden;
+}
+
+#game #field{
 	text-align:right;
 	width: 800px; 
 	height:500px; 
 	background:#000; 
 	position:relative; 
 	overflow:hidden;
+	float:right;
 }
 
-#field span{
+#game #field span{
 	display: block; 
 	position: absolute; 
 	background:#fff; 
@@ -117,3 +128,12 @@ body {
 #field #zumbie_3{ top:250px; left: 10px;}
 #field #zumbie_4{ top:350px; left: 10px;}
 
+#game #calc{
+	float: left;
+	text-align:right;
+	width: 200px; 
+	height:500px; 
+	background:#666; 
+	position:relative; 
+	overflow:hidden;
+}

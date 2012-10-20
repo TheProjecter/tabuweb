@@ -3,20 +3,26 @@
 body {
 	background-color: #ddddff;
 	font-family: "Andalus";
+	
+	margin:0;
+	padding:0;
+	text-align:center; 
 }
 
 #page {
-	width: 1100px;
+	width: 1000px;
 	margin: 0px; margin-left : auto;
 	margin-right: auto;
 	margin-left: auto; margin-right : auto;
-	background: aqua;
+	background: #23b3e2;
+			
+	text-align:left;
 }
 
 #head {
 	margin-bottom: 20px;
 	background-image: url("images/head.png");
-	width: 1000px;
+	width: 900px;
 	border: 10px;
 	border-color: gray;
 	border-style: double;
@@ -25,15 +31,19 @@ body {
 }
 
 #head #table_head {
-	width: 1000px;
+	width: 900px;
+	height: 60px;
+	position: relative;
 }
 
 #head #title #name {
-	padding-top: 40px;
+	padding-top: 10px;
 	text-decoration: overline;
 	font-family: "Agency FB";
 	font-weight: bold;
 	font-size: 80px;
+	
+	position: relative;
 }
 
 #head #title #description {
@@ -41,10 +51,12 @@ body {
 	font-style: italic;
 	font-weight: lighter;
 	color: #555555;
+	position: relative;
 }
 
 #head #identification {
 	text-align: right;
+	position: relative;
 }
 
 #head ul {
@@ -72,6 +84,7 @@ body {
 }
 
 #head #configuration #configuration_popup {
+	width: 250px;
 	visibility: hidden;
 	position: absolute;
 	float: left;
@@ -79,6 +92,28 @@ body {
 	border: 5px;
 	border-style: double;
 	border-color: #11b0ae;
-	padding: 10px;
-	padding-bottom: 50px;
 }
+
+#field{
+	text-align:right;
+	width: 800px; 
+	height:500px; 
+	background:#000; 
+	position:relative; 
+	overflow:hidden;
+}
+
+#field span{
+	display: block; 
+	position: absolute; 
+	background:#fff; 
+	overflow:hidden; 
+	text-indent:-9999px;
+}
+
+#field .zumbie{ height:50px; width:50px;}
+#field #zumbie_1{ top:50px; left: 10px;}
+#field #zumbie_2{ top:150px; left: 10px;}
+#field #zumbie_3{ top:250px; left: 10px;}
+#field #zumbie_4{ top:350px; left: 10px;}
+

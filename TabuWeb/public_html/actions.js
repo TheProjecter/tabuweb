@@ -29,3 +29,10 @@ function showConfigurations() {
 function hideConfigurations() {
 	document.getElementById("configuration_popup").style.visibility="hidden";
 }
+
+/* Mexe zumbie */
+$(document).ready(function(){
+  $("#control_button").click(function(){
+    $("#zumbie_1").animate({left:'250px'});
+  });
+});

@@ -33,7 +33,92 @@ function hideConfigurations() {
 	document.getElementById("configuration_popup").style.visibility="hidden";
 }
 
-/*Mexe zumbie */
+
+
+/* Opções, quando mudamos alguma caracteristica do jog, é alterado aqui também! */
+var dificuldade = 1, soma = 1, subt = 1, mult = 1, divi = 1, offline = 1, cenario = 1;
+
+function verificaPreenchimento(){
+	if((soma + subt + mult + divi) == 0) 
+		alert("Selecione pelo menos uma opção de operação!");
+	else{
+		geraOperacao();
+	}
+}
+
+function mudaDificuldade(valor){dificuldade = valor;}
+function mudaSoma(){if(soma == 1) soma = 0; else soma = 1;}
+function mudaSubt(){if(subt == 1) subt = 0; else subt = 1;} 
+function mudaMult(){if(mult == 1) mult = 0; else mult = 1;}
+function mudaDivi(){if(divi == 1) divi = 0; else divi = 1;}
+function mudaOffline(valor){offline = valor;}
+function mudaCenario(valor){cenario = valor;}
+
+function geraOperacao() {
+	var x, y, sinal = 0, numAle1, numAle2, div;
+
+	do{
+		numAle1 = Math.floor((Math.random()*4)+1);
+		if(numAle1 == 1 && soma == 1) sinal = 1;
+		if(numAle1 == 2 && subt == 1) sinal = 2;
+		if(numAle1 == 3 && mult == 1) sinal = 3;
+		if(numAle1 == 4 && divi == 1) sinal = 4;
+	}while(sinal == 0);
+	
+	numAle1 = Math.random();
+	numAle2 = Math.random();
+	
+	if(dificuldade == 1){
+			if(sinal == 1){ x = Math.floor((numAle1*20)+1); y = Math.floor((numAle2*9)+1);}
+			if(sinal == 2){ x = Math.floor((numAle1*20)+1); y = Math.floor((numAle2*x)+1);}
+			if(sinal == 3){ x = Math.floor((numAle1*4)+1); y = Math.floor((numAle2*9)+1);}
+			if(sinal == 4){ y = Math.floor((numAle1*5)+2); div = Math.floor((numAle2*10)+2); x = y*div;}
+	}
+	else if(dificuldade == 2){
+			if(sinal == 1){ x = Math.floor((numAle1*100)+1); y = Math.floor((numAle2*40)+1);}
+			if(sinal == 2){ x = Math.floor((numAle1*60)+1); y = Math.floor((numAle2*x)+1);}
+			if(sinal == 3){ x = Math.floor((numAle1*10)+1); y = Math.floor((numAle2*10)+1);}
+			if(sinal == 4){ y = Math.floor((numAle1*10)+2); div = Math.floor((numAle2*10)+2); x = y*div;}
+	}
+	else if(dificuldade == 3){
+			if(sinal == 1){ x = Math.floor((numAle1*300)+1); y = Math.floor((numAle2*100)+1);}
+			if(sinal == 2){ x = Math.floor((numAle1*200)+1); y = Math.floor((numAle2*100)+1);}
+			if(sinal == 3){ x = Math.floor((numAle1*30)+1); y = Math.floor((numAle2*20)+1);}
+			if(sinal == 4){ y = Math.floor((numAle1*50)+2); div = Math.floor((numAle2*10)+2); x = y*div;}
+	}
+	else if(dificuldade == 4){
+			if(sinal == 1){ x = Math.floor((numAle1*800)+1); y = Math.floor((numAle2*500)+1);}
+			if(sinal == 2){ x = Math.floor((numAle1*500)+1); y = Math.floor((numAle2*500)+1);}
+			if(sinal == 3){ x = Math.floor((numAle1*40)+1); y = Math.floor((numAle2*40)+1);}
+			if(sinal == 4){ y = Math.floor((numAle1*100)+2); div = Math.floor((numAle2*20)+2); x = y*div;}
+	}
+	
+	/*
+	
+	var x=document.getElementById("demo")
+	x.innerHTML=Math.floor((Math.random()*100)+1);
+
+	document.getElementById("submit_name").innerHTML = name + " |";
+	
+	""
+*/
+}
+
+
+
+
+
+/*    
+ *  	Jquery uma biblioteca do javascript que permite diminuir algumas parte do codigo
+ *	e fazer animações!
+ *
+ *
+ *
+ *
+ * 
+*/
+
+/* ----------------- Mexendo zumbie */
 var d_left, d_top, movimento_left, movimento_top, pos_x, pos_y;
 
 // Quantos px andará cada intervalo
@@ -44,30 +129,26 @@ movimento_top = parseInt(Math.random()*3 + 1);
 d_left = parseInt(Math.random()*2);
 d_top = parseInt(Math.random()*2);
 
-/* Opções */
-var dificuldade = 1, soma = 1, subt = 1, mult = 1, divi = 1, offline = 1, cenario = 1;
 
-function mudaDificuldade(valor){dificuldade = valor;}
-function mudaSoma(){if(soma == 1) soma = 0; else soma = 1;}
-function mudaSubt(){if(subt == 1) subt = 0; else subt = 1;}
-function mudaMult(){if(mult == 1) mult = 0; else mult = 1;}
-function mudaDivi(){if(divi == 1) divi = 0; else divi = 1;}
-function mudaOffline(valor){offline = valor;}
-function mudaCenario(valor){cenario = valor;}
+/*
 
-var num = 0;
+$(document).ready
+-- isso é executado assim que a pagina estiver pronta para exibir!
+
+*/
 
 $(document).ready(function(){
-	/*Pega posição*/
+	/* Atribui os valores iniciais!!!       ----- */
 	var pos_x1 = 10, pos_y1 = 50, pos_x2 = 10, pos_y2 = 100;
-	alert(num);
-	num++;
 	
-	/*Define Limites*/	
+	/*Define Limite do campo!!                -----*/	
 	limite_left = 20;
 	limite_right = $('#field').width() - $('#zumbie_1').width() - 20;
 	
-
+	/* Essa função abaixo é executada a cada x milisegundos:
+	window.setInterval(function(){-- conteudo --}, tempo x);
+		
+	*/
 	window.setInterval(function(){
 			
 		pos_x1 = d_left == 1 ? pos_x1 + movimento_left : pos_x1 - movimento_left;

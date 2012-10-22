@@ -98,7 +98,7 @@ function mudaCenario(valor) {
 var valor_x = 0, valor_y = 0, valor_sinal = 0, chances = 2;
 
 function geraOperacao() {
-	var x, y, sinal = 0, numAle1, numAle2, div, sinalString;
+	var x = 0, y = 0, sinal = 0, numAle1, numAle2, d;
 	var sinalString = "+-x/";
 
 	do {
@@ -131,8 +131,8 @@ function geraOperacao() {
 		}
 		if (sinal == 4) {
 			y = Math.floor((numAle1 * 5) + 2);
-			div = Math.floor((numAle2 * 10) + 2);
-			x = y * div;
+			d = Math.floor((numAle2 * 10) + 2);
+			x = y * d;
 		}
 	} else if (dificuldade == 2) {
 		if (sinal == 1) {
@@ -149,8 +149,8 @@ function geraOperacao() {
 		}
 		if (sinal == 4) {
 			y = Math.floor((numAle1 * 10) + 2);
-			div = Math.floor((numAle2 * 10) + 2);
-			x = y * div;
+			d = Math.floor((numAle2 * 10) + 2);
+			x = y * d;
 		}
 	} else if (dificuldade == 3) {
 		if (sinal == 1) {
@@ -167,8 +167,8 @@ function geraOperacao() {
 		}
 		if (sinal == 4) {
 			y = Math.floor((numAle1 * 50) + 2);
-			div = Math.floor((numAle2 * 10) + 2);
-			x = y * div;
+			d = Math.floor((numAle2 * 10) + 2);
+			x = y * d;
 		}
 	} else if (dificuldade == 4) {
 		if (sinal == 1) {
@@ -185,8 +185,8 @@ function geraOperacao() {
 		}
 		if (sinal == 4) {
 			y = Math.floor((numAle1 * 100) + 2);
-			div = Math.floor((numAle2 * 20) + 2);
-			x = y * div;
+			d = Math.floor((numAle2 * 20) + 2);
+			x = y * d;
 		}
 	}
 
@@ -225,7 +225,7 @@ function verifica_resultado_conta(resposta){
 	   (valor_sinal == 3 && valor_x*valor_y == resposta) ||
 	   (valor_sinal == 4 && valor_x/valor_y == resposta)){
 			geraOperacao();
-			mexe_zumbie()
+			mexe_zumbie();
 	}
 	else{
 		if(chances > 0){
@@ -262,7 +262,7 @@ movimento_top = parseInt(Math.random()*3 + 1);
 
 function mexe_zumbie(){
 	/* Atribui os valores iniciais!!!       ----- */
-	var pos_x1 = 10, pos_y1 = 50, pos_x2 = 10, pos_y2 = 100;
+	var pos_x1 = 10, pos_x2 = 10, pos_y2 = 100;
 	
 	/*Define Limite do campo!!                -----*/	
 	limite_left = 20;

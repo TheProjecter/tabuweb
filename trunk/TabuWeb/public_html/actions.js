@@ -1,9 +1,13 @@
-var jogoPausado = 1;
+
+
+var jogoPausado = 1, colocouNome = 0;
+
 /*
  * Função que substitui o formulário de sumbissão do nome de usuário pelo próprio nome recebido.
  */
 function receiveUserName(name) {
 	document.getElementById("submit_name").innerHTML = name + " |";
+	colocouNome = 1;
 }
 
 /*
@@ -12,12 +16,9 @@ function receiveUserName(name) {
 function startStopGame() {
 	var option = document.getElementById("control_button").innerHTML;
 	if (option == "START") {
-		document.getElementById("control_button").innerHTML = "STOP";
-		alert("Let's start the game!");
-		jogoPausado = 0;
+		verificaPreenchimento(); /*Verifica se os dados estao corretos, caso contrario nao inicia o jogo*/ 	
 	} else if (option == "STOP") {
 		document.getElementById("control_button").innerHTML = "START";
-		alert("Bye bye");
 		jogoPausado = 1;
 	} else {
 		alert("Opção inválida: " + option);
@@ -39,9 +40,11 @@ function hideConfigurations() {
 var dificuldade = 1, soma = 1, subt = 1, mult = 1, divi = 1, offline = 1, cenario = 1;
 
 function verificaPreenchimento(){
-	if((soma + subt + mult + divi) == 0) 
-		alert("Selecione pelo menos uma opção de operação!");
+	if((soma + subt + mult + divi) == 0) alert("Selecione pelo menos uma opção de operação!");
+	else if(colocouNome == 0) alert("Insira um nome!")
 	else{
+		document.getElementById("control_button").innerHTML = "STOP";
+		jogoPausado = 0;
 		geraOperacao();
 	}
 }
@@ -54,8 +57,11 @@ function mudaDivi(){if(divi == 1) divi = 0; else divi = 1;}
 function mudaOffline(valor){offline = valor;}
 function mudaCenario(valor){cenario = valor;}
 
+var valor_x = 0, valor_y = 0, valor_sinal = 0, chances = 2;
+
 function geraOperacao() {
-	var x, y, sinal = 0, numAle1, numAle2, div;
+	var x, y, sinal = 0, numAle1, numAle2, div, sinalString;
+	var sinalString = "+-x/";
 
 	do{
 		numAle1 = Math.floor((Math.random()*4)+1);
@@ -93,18 +99,35 @@ function geraOperacao() {
 			if(sinal == 4){ y = Math.floor((numAle1*100)+2); div = Math.floor((numAle2*20)+2); x = y*div;}
 	}
 	
-	/*
+	valor_x = x;
+	valor_y = y;
+	valor_sinal = sinal;
+	chances = 2;
 	
-	var x=document.getElementById("demo")
-	x.innerHTML=Math.floor((Math.random()*100)+1);
-
-	document.getElementById("submit_name").innerHTML = name + " |";
-	
-	""
-*/
+	document.getElementById("contas").innerHTML = x + " " +sinalString[sinal-1] + " " + y + " = ";
+	document.getElementById("resultado").style.visibility="visible";
 }
 
 
+function verifica_resultado_conta(resposta){
+	document.getElementById("result").value="";
+	document.getElementById("mens_erro").innerHTML = "";
+	
+	if(valor_sinal == 1 && valor_x+valor_y == resposta) geraOperacao();
+	else if(valor_sinal == 2 && valor_x-valor_y == resposta) geraOperacao();
+	else if(valor_sinal == 3 && valor_x*valor_y == resposta) geraOperacao();
+	else if(valor_sinal == 4 && valor_x/valor_y == resposta) geraOperacao();
+	else{
+		if(chances > 0){
+			chances--;
+			document.getElementById("mens_erro").innerHTML = "Você errou!";
+		}
+		else{
+			document.getElementById("mens_erro").innerHTML = "Perdeu x pontos!";
+			geraOperacao();
+		}
+	}
+}
 
 
 
@@ -188,3 +211,4 @@ $(document).ready(function(){
 	},50);
 	
 });
+

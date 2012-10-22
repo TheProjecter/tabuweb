@@ -25,12 +25,8 @@
 					<td width="444" align="right" valign="top">
 						<ul>
 							<li>
-								<div id="configuration" onmouseover="showConfigurations()"
-									onmouseout="hideConfigurations()">
-									<a id="configuration_button" href="javascript: void(0)"
-										style="text-decoration: none"> <!-- onclick="window.open('config.html', 'Info', 'status=yes,scrollbars=yes,resizable=yes,width=300,height=450,left=800,top=47')"> -->
-										Configurações
-									</a>
+								<div id="configuration" onmouseover="showConfigurations()" onmouseout="hideConfigurations()">
+									<a id="configuration_button" href="javascript: void(0)" style="text-decoration: none"> Configurações </a>
 
 									<table id="configuration_popup">
 										<tbody>
@@ -71,9 +67,6 @@
 														</p>
 														<input type="submit" value="OK">
 														</form>
-
-
-
 													</div>
 												</td>
 											</tr>
@@ -85,7 +78,7 @@
 							<li>
 								<div id="identification">
 									<div id="submit_name">
-										<input type="text" id="user_name" value="digite seu nome" />
+										<input type="text" id="user_name" placeholder="Digite seu nome" />
 										<input type="submit" id="submit_button" onclick="receiveUserName(user_name.value)" value="OK" />
 									</div>
 								</div>
@@ -103,17 +96,28 @@
 						<div style="float:right" align="right" id="control_button" onclick="startStopGame()">START</div>
 					</td>
 				</tr>
+                
 			</table>
 		</div>
 		<div id="game">
 			<div id="field">
-				<span id="zumbie_1" class="zumbie">Zumbie</span>
-				<span id="zumbie_2" class="zumbie">Zumbie</span>
-				<span id="zumbie_3" class="zumbie">Zumbie</span>
-				<span id="zumbie_4" class="zumbie">Zumbie</span>
+				<span id="zumbie_1" class="zumbie"><img src="images/image1.gif" alt="Zumbie 1" width="50" height="50"></span>
+				<span id="zumbie_2" class="zumbie"><img src="images/image1.gif" alt="Zumbie 2" width="50" height="50"></span>
+				<span id="zumbie_3" class="zumbie"><img src="images/image1.gif" alt="Zumbie 3" width="50" height="50"></span>
+				<span id="zumbie_4" class="zumbie"><img src="images/image1.gif" alt="Zumbie 3" width="50" height="50"></span>
 			</div>
 			<div id="calc"> 
-			  	<p>Resolva a operaç&atilde;o abaixo:</p>
+				<span id="resultado" style="visibility: hidden;">
+					<p>Resolva a operaç&atilde;o abaixo:</p>
+					<span id="contas"></span>
+					<br/>
+					<span>
+						<input type="resultado" id="result" value="" size="1"/>
+						<input type="submit" id="submit_button_res" onclick="verifica_resultado_conta(result.value)" />
+					</span>
+					<br />
+					<span id="mens_erro"></span>
+				</span>
             </div>
 		</div>
 	</div>

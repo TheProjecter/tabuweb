@@ -108,6 +108,22 @@ function geraOperacao() {
 	document.getElementById("resultado").style.visibility="visible";
 }
 
+function submitenter(subm_button_id, e) {
+	var keycode;
+	if (window.event)
+		keycode = window.event.keyCode;
+	else if (e)
+		keycode = e.which;
+	else
+		return true;
+
+	if (keycode == 13) {
+		document.getElementById(subm_button_id).onclick();
+		return false;
+	} else
+		return true;
+}
+
 
 function verifica_resultado_conta(resposta){
 	document.getElementById("result").value="";

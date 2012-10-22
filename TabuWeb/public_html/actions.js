@@ -1,13 +1,20 @@
 
-
-var jogoPausado = 1, colocouNome = 0, play, pontos;
+var jogoPausado = true;
+var colocouNome = false;
+var play;
+var pontos;
 
 /*
- * Função que substitui o formulário de sumbissão do nome de usuário pelo próprio nome recebido.
+ * Função que substitui o formulário de sumbissão do nome de usuário pelo
+ * próprio nome recebido.
  */
-function receiveUserName(name) {
-	document.getElementById("submit_name").innerHTML = name + " |";
-	colocouNome = 1;
+function receiveUserName(nam) {
+	var name = String(nam);
+	if (name.match(/^[a-zA-Z]+.+.+/)) {
+		document.getElementById("submit_name").innerHTML = name + " |";
+		colocouNome = true;
+	} else
+		alert("Seu nome deve ter mais de 2 caracteres\ne iniciar por um caractere alfabético");
 }
 
 /*
@@ -16,10 +23,13 @@ function receiveUserName(name) {
 function startStopGame() {
 	var option = document.getElementById("control_button").innerHTML;
 	if (option == "START") {
-		verificaPreenchimento(); /*Verifica se os dados estao corretos, caso contrario nao inicia o jogo*/ 	
+		verificaPreenchimento(); /*
+									 * Verifica se os dados estao corretos, caso
+									 * contrario nao inicia o jogo
+									 */
 	} else if (option == "STOP") {
 		document.getElementById("control_button").innerHTML = "START";
-		jogoPausado = 1;
+		jogoPausado = true;
 	} else {
 		alert("Opção inválida: " + option);
 	}
@@ -27,35 +37,61 @@ function startStopGame() {
 
 function showConfigurations() {
 	if (document.getElementById("control_button").innerHTML == "START") {
-		document.getElementById("configuration_popup").style.visibility="visible";
+		document.getElementById("configuration_popup").style.visibility = "visible";
 	}
 }
 function hideConfigurations() {
-	document.getElementById("configuration_popup").style.visibility="hidden";
+	document.getElementById("configuration_popup").style.visibility = "hidden";
 }
-
-
 
 /* Opções, quando mudamos alguma caracteristica do jog, é alterado aqui também! */
 var dificuldade = 1, soma = 1, subt = 1, mult = 1, divi = 1, offline = 1, cenario = 1;
 
-function verificaPreenchimento(){
-	if((soma + subt + mult + divi) == 0) alert("Selecione pelo menos uma opção de operação!");
-	else if(colocouNome == 0) alert("Insira um nome!")
-	else{
+function verificaPreenchimento() {
+	if ((soma + subt + mult + divi) == 0)
+		alert("Selecione pelo menos uma opção de operação!");
+	else if (!colocouNome)
+		alert("Insira um nome!");
+	else {
 		document.getElementById("control_button").innerHTML = "STOP";
-		jogoPausado = 0;
+		jogoPausado = false;
 		geraOperacao();
 	}
 }
 
-function mudaDificuldade(valor){dificuldade = valor;}
-function mudaSoma(){if(soma == 1) soma = 0; else soma = 1;}
-function mudaSubt(){if(subt == 1) subt = 0; else subt = 1;} 
-function mudaMult(){if(mult == 1) mult = 0; else mult = 1;}
-function mudaDivi(){if(divi == 1) divi = 0; else divi = 1;}
-function mudaOffline(valor){offline = valor;}
-function mudaCenario(valor){cenario = valor;}
+function mudaDificuldade(valor) {
+	dificuldade = valor;
+}
+function mudaSoma() {
+	if (soma == 1)
+		soma = 0;
+	else
+		soma = 1;
+}
+function mudaSubt() {
+	if (subt == 1)
+		subt = 0;
+	else
+		subt = 1;
+}
+function mudaMult() {
+	if (mult == 1)
+		mult = 0;
+	else
+		mult = 1;
+}
+function mudaDivi() {
+	if (divi == 1)
+		divi = 0;
+	else
+		divi = 1;
+}
+function mudaOffline(valor) {
+	offline = valor;
+}
+function mudaCenario(valor) {
+	cenario = valor;
+}
 
  /* GERA ALEATIAMENTE AS CONTAS! */
 
@@ -65,49 +101,103 @@ function geraOperacao() {
 	var x, y, sinal = 0, numAle1, numAle2, div, sinalString;
 	var sinalString = "+-x/";
 
-	do{
-		numAle1 = Math.floor((Math.random()*4)+1);
-		if(numAle1 == 1 && soma == 1) sinal = 1;
-		if(numAle1 == 2 && subt == 1) sinal = 2;
-		if(numAle1 == 3 && mult == 1) sinal = 3;
-		if(numAle1 == 4 && divi == 1) sinal = 4;
-	}while(sinal == 0);
-	
+	do {
+		numAle1 = Math.floor((Math.random() * 4) + 1);
+		if (numAle1 == 1 && soma == 1)
+			sinal = 1;
+		if (numAle1 == 2 && subt == 1)
+			sinal = 2;
+		if (numAle1 == 3 && mult == 1)
+			sinal = 3;
+		if (numAle1 == 4 && divi == 1)
+			sinal = 4;
+	} while (sinal == 0);
+
 	numAle1 = Math.random();
 	numAle2 = Math.random();
-	
-	if(dificuldade == 1){
-			if(sinal == 1){ x = Math.floor((numAle1*20)+1); y = Math.floor((numAle2*9)+1);}
-			if(sinal == 2){ x = Math.floor((numAle1*20)+1); y = Math.floor((numAle2*x)+1);}
-			if(sinal == 3){ x = Math.floor((numAle1*4)+1); y = Math.floor((numAle2*9)+1);}
-			if(sinal == 4){ y = Math.floor((numAle1*5)+2); div = Math.floor((numAle2*10)+2); x = y*div;}
+
+	if (dificuldade == 1) {
+		if (sinal == 1) {
+			x = Math.floor((numAle1 * 20) + 1);
+			y = Math.floor((numAle2 * 9) + 1);
+		}
+		if (sinal == 2) {
+			x = Math.floor((numAle1 * 20) + 1);
+			y = Math.floor((numAle2 * x) + 1);
+		}
+		if (sinal == 3) {
+			x = Math.floor((numAle1 * 4) + 1);
+			y = Math.floor((numAle2 * 9) + 1);
+		}
+		if (sinal == 4) {
+			y = Math.floor((numAle1 * 5) + 2);
+			div = Math.floor((numAle2 * 10) + 2);
+			x = y * div;
+		}
+	} else if (dificuldade == 2) {
+		if (sinal == 1) {
+			x = Math.floor((numAle1 * 100) + 1);
+			y = Math.floor((numAle2 * 40) + 1);
+		}
+		if (sinal == 2) {
+			x = Math.floor((numAle1 * 60) + 1);
+			y = Math.floor((numAle2 * x) + 1);
+		}
+		if (sinal == 3) {
+			x = Math.floor((numAle1 * 10) + 1);
+			y = Math.floor((numAle2 * 10) + 1);
+		}
+		if (sinal == 4) {
+			y = Math.floor((numAle1 * 10) + 2);
+			div = Math.floor((numAle2 * 10) + 2);
+			x = y * div;
+		}
+	} else if (dificuldade == 3) {
+		if (sinal == 1) {
+			x = Math.floor((numAle1 * 300) + 1);
+			y = Math.floor((numAle2 * 100) + 1);
+		}
+		if (sinal == 2) {
+			x = Math.floor((numAle1 * 200) + 1);
+			y = Math.floor((numAle2 * 100) + 1);
+		}
+		if (sinal == 3) {
+			x = Math.floor((numAle1 * 30) + 1);
+			y = Math.floor((numAle2 * 20) + 1);
+		}
+		if (sinal == 4) {
+			y = Math.floor((numAle1 * 50) + 2);
+			div = Math.floor((numAle2 * 10) + 2);
+			x = y * div;
+		}
+	} else if (dificuldade == 4) {
+		if (sinal == 1) {
+			x = Math.floor((numAle1 * 800) + 1);
+			y = Math.floor((numAle2 * 500) + 1);
+		}
+		if (sinal == 2) {
+			x = Math.floor((numAle1 * 500) + 1);
+			y = Math.floor((numAle2 * 500) + 1);
+		}
+		if (sinal == 3) {
+			x = Math.floor((numAle1 * 40) + 1);
+			y = Math.floor((numAle2 * 40) + 1);
+		}
+		if (sinal == 4) {
+			y = Math.floor((numAle1 * 100) + 2);
+			div = Math.floor((numAle2 * 20) + 2);
+			x = y * div;
+		}
 	}
-	else if(dificuldade == 2){
-			if(sinal == 1){ x = Math.floor((numAle1*100)+1); y = Math.floor((numAle2*40)+1);}
-			if(sinal == 2){ x = Math.floor((numAle1*60)+1); y = Math.floor((numAle2*x)+1);}
-			if(sinal == 3){ x = Math.floor((numAle1*10)+1); y = Math.floor((numAle2*10)+1);}
-			if(sinal == 4){ y = Math.floor((numAle1*10)+2); div = Math.floor((numAle2*10)+2); x = y*div;}
-	}
-	else if(dificuldade == 3){
-			if(sinal == 1){ x = Math.floor((numAle1*300)+1); y = Math.floor((numAle2*100)+1);}
-			if(sinal == 2){ x = Math.floor((numAle1*200)+1); y = Math.floor((numAle2*100)+1);}
-			if(sinal == 3){ x = Math.floor((numAle1*30)+1); y = Math.floor((numAle2*20)+1);}
-			if(sinal == 4){ y = Math.floor((numAle1*50)+2); div = Math.floor((numAle2*10)+2); x = y*div;}
-	}
-	else if(dificuldade == 4){
-			if(sinal == 1){ x = Math.floor((numAle1*800)+1); y = Math.floor((numAle2*500)+1);}
-			if(sinal == 2){ x = Math.floor((numAle1*500)+1); y = Math.floor((numAle2*500)+1);}
-			if(sinal == 3){ x = Math.floor((numAle1*40)+1); y = Math.floor((numAle2*40)+1);}
-			if(sinal == 4){ y = Math.floor((numAle1*100)+2); div = Math.floor((numAle2*20)+2); x = y*div;}
-	}
-	
+
 	valor_x = x;
 	valor_y = y;
 	valor_sinal = sinal;
-	chances = 1;
-	
-	document.getElementById("contas").innerHTML = x + " " +sinalString[sinal-1] + " " + y + " = ";
-	document.getElementById("resultado").style.visibility="visible";
+	chances = 2;
+
+	document.getElementById("contas").innerHTML = x + " "
+			+ sinalString[sinal - 1] + " " + y + " = ";
+	document.getElementById("resultado").style.visibility = "visible";
 }
 
 function submitenter(subm_button_id, e) {
@@ -125,7 +215,6 @@ function submitenter(subm_button_id, e) {
 	} else
 		return true;
 }
-
 
 function verifica_resultado_conta(resposta){
 	document.getElementById("result").value="";

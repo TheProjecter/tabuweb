@@ -1,6 +1,6 @@
 
 
-var jogoPausado = 1, colocouNome = 0;
+var jogoPausado = 1, colocouNome = 0, play, pontos;
 
 /*
  * Função que substitui o formulário de sumbissão do nome de usuário pelo próprio nome recebido.
@@ -102,7 +102,7 @@ function geraOperacao() {
 	valor_x = x;
 	valor_y = y;
 	valor_sinal = sinal;
-	chances = 2;
+	chances = 1;
 	
 	document.getElementById("contas").innerHTML = x + " " +sinalString[sinal-1] + " " + y + " = ";
 	document.getElementById("resultado").style.visibility="visible";
@@ -137,6 +137,7 @@ function verifica_resultado_conta(resposta){
 		if(chances > 0){
 			chances--;
 			document.getElementById("mens_erro").innerHTML = "Você errou!";
+			/*     ------->      */ clearInterval(play);
 		}
 		else{
 			document.getElementById("mens_erro").innerHTML = "Perdeu x pontos!";
@@ -188,7 +189,7 @@ $(document).ready(function(){
 	window.setInterval(function(){-- conteudo --}, tempo x);
 		
 	*/
-	window.setInterval(function(){
+	play = window.setInterval(function(){
 			
 		pos_x1 = d_left == 1 ? pos_x1 + movimento_left : pos_x1 - movimento_left;
 		pos_y1 = d_top == 1 ? pos_y1 + movimento_top : pos_y1 - movimento_top;

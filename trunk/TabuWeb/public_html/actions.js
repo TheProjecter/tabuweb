@@ -3,6 +3,10 @@ var jogoPausado = true;
 var colocouNome = false;
 var play;
 var pontos;
+var pos_x1 = 10;
+var limite_zumbie_px = 0;
+var movimento_left = 0;
+var ganhou = false;
 
 /*
  * Função que substitui o formulário de sumbissão do nome de usuário pelo
@@ -23,10 +27,11 @@ function receiveUserName(nam) {
 function startStopGame() {
 	var option = document.getElementById("control_button").innerHTML;
 	if (option == "START") {
-		verificaPreenchimento(); /*
-									 * Verifica se os dados estao corretos, caso
-									 * contrario nao inicia o jogo
-									 */
+		verificaPreenchimento(); 
+		/*
+		* Verifica se os dados estao corretos, caso
+		* contrario nao inicia o jogo
+		*/
 	} else if (option == "STOP") {
 		document.getElementById("control_button").innerHTML = "START";
 		jogoPausado = true;
@@ -59,43 +64,17 @@ function verificaPreenchimento() {
 	}
 }
 
-function mudaDificuldade(valor) {
-	dificuldade = valor;
-}
-function mudaSoma() {
-	if (soma == 1)
-		soma = 0;
-	else
-		soma = 1;
-}
-function mudaSubt() {
-	if (subt == 1)
-		subt = 0;
-	else
-		subt = 1;
-}
-function mudaMult() {
-	if (mult == 1)
-		mult = 0;
-	else
-		mult = 1;
-}
-function mudaDivi() {
-	if (divi == 1)
-		divi = 0;
-	else
-		divi = 1;
-}
-function mudaOffline(valor) {
-	offline = valor;
-}
-function mudaCenario(valor) {
-	cenario = valor;
-}
+function mudaDificuldade(valor) {dificuldade = valor;}
+function mudaSoma() {if (soma == 1) soma = 0;else soma = 1;}
+function mudaSubt() {if (subt == 1) subt = 0;else subt = 1;}
+function mudaMult() {if (mult == 1) mult = 0;else mult = 1;}
+function mudaDivi() {if (divi == 1) divi = 0;else divi = 1;}
+function mudaOffline(valor) {offline = valor;}
+function mudaCenario(valor) {cenario = valor;}
 
  /* GERA ALEATIAMENTE AS CONTAS! */
 
-var valor_x = 0, valor_y = 0, valor_sinal = 0, chances = 2;
+var valor_x = 0, valor_y = 0, valor_sinal = 0, chances = 1;
 
 function geraOperacao() {
 	var x = 0, y = 0, sinal = 0, numAle1, numAle2, d;
@@ -193,10 +172,10 @@ function geraOperacao() {
 	valor_x = x;
 	valor_y = y;
 	valor_sinal = sinal;
-	chances = 2;
+	chances = 1;
+	ja_errou_uma_vez = false;
 
-	document.getElementById("contas").innerHTML = x + " "
-			+ sinalString[sinal - 1] + " " + y + " = ";
+	document.getElementById("contas").innerHTML = x + " " + sinalString[sinal - 1] + " " + y + " = ";
 	document.getElementById("resultado").style.visibility = "visible";
 }
 
@@ -224,14 +203,22 @@ function verifica_resultado_conta(resposta){
 	   (valor_sinal == 2 && valor_x-valor_y == resposta) ||
 	   (valor_sinal == 3 && valor_x*valor_y == resposta) ||
 	   (valor_sinal == 4 && valor_x/valor_y == resposta)){
-			geraOperacao();
-			mexe_zumbie();
+
+		if(ja_errou_uma_vez == false){
+			limite_zumbie_px += 30; 
+			movimento_left = 2;	
+		}
+		else{
+			limite_zumbie_px += 20; 
+			movimento_left = 1;	
+		}
+		geraOperacao();
 	}
 	else{
 		if(chances > 0){
 			chances--;
+			ja_errou_uma_vez = true;
 			document.getElementById("mens_erro").innerHTML = "Você errou!";
-			/*     ------->      */ clearInterval(play);
 		}
 		else{
 			document.getElementById("mens_erro").innerHTML = "Perdeu x pontos!";
@@ -253,57 +240,29 @@ function verifica_resultado_conta(resposta){
 */
 
 /* ----------------- Mexendo zumbie */
-var d_left, d_top, movimento_left, movimento_top, pos_x, pos_y;
 
-// Quantos px andará cada intervalo
-movimento_left = 5;
-movimento_top = parseInt(Math.random()*3 + 1);
-
-
-function mexe_zumbie(){
-	/* Atribui os valores iniciais!!!       ----- */
-	var pos_x1 = 10, pos_x2 = 10, pos_y2 = 100;
+$(document).ready(function(){
 	
 	/*Define Limite do campo!!                -----*/	
-	limite_left = 20;
-	limite_right = $('#field').width() - $('#zumbie_1').width() - 20;
+	var limite_right = $('#field').width() - $('#zumbie_1').width() - 20;
 	
-	pontos = $("#pont_1");
+	/*pontos = $("#pont_1");*/
 	
 	/* Essa função abaixo é executada a cada x milisegundos:
-	window.setInterval(function(){-- conteudo --}, tempo x);
-	*/
+	window.setInterval(function(){-- conteudo --}, tempo x);*/
 	play = window.setInterval(function(){
-			
 		pos_x1 = pos_x1 + movimento_left;
 			
-		if(pos_x1>limite_right-50){
-			/*pos_x1 = pos_x1 - movimento_left * 2;*/
+		if(pos_x1 > limite_zumbie_px) movimento_left = 0;
+		if(pos_x1 > limite_right-50 && ganhou == false){
 			movimento_left = 0;
+			alert("Parabéns você ganhou!");
+			ganhou = true;
 		}
-				
+		
 		$('#zumbie_1').css({'top':50,'left':pos_x1+'px'});
-			
-	},33);
-	
-	window.setInterval(function(){
-			
-		pos_x2 = d_left == 1 ? pos_x2 + movimento_left : pos_x2 - movimento_left;
-		pos_y2 = d_top == 1 ? pos_y2 + movimento_top : pos_y2 - movimento_top;
-				
-		if(pos_x2<limite_left){
-			pos_x2 = pos_x2 + movimento_left * 2;
-			d_left = 1;
-		}
-			
-		if(pos_x2>limite_right){
-			pos_x2 = pos_x2 - movimento_left * 2;
-			d_left = 0;
-		}
-				
-		$('#zumbie_2').css({'top':150,'left':pos_x2+'px'});
-			
+		
 	},50);
-	
-}
+});
+
 

@@ -57,6 +57,8 @@ function mudaDivi(){if(divi == 1) divi = 0; else divi = 1;}
 function mudaOffline(valor){offline = valor;}
 function mudaCenario(valor){cenario = valor;}
 
+ /* GERA ALEATIAMENTE AS CONTAS! */
+
 var valor_x = 0, valor_y = 0, valor_sinal = 0, chances = 2;
 
 function geraOperacao() {
@@ -129,10 +131,13 @@ function verifica_resultado_conta(resposta){
 	document.getElementById("result").value="";
 	document.getElementById("mens_erro").innerHTML = "";
 	
-	if(valor_sinal == 1 && valor_x+valor_y == resposta) geraOperacao();
-	else if(valor_sinal == 2 && valor_x-valor_y == resposta) geraOperacao();
-	else if(valor_sinal == 3 && valor_x*valor_y == resposta) geraOperacao();
-	else if(valor_sinal == 4 && valor_x/valor_y == resposta) geraOperacao();
+	if((valor_sinal == 1 && valor_x+valor_y == resposta) || 
+	   (valor_sinal == 2 && valor_x-valor_y == resposta) ||
+	   (valor_sinal == 3 && valor_x*valor_y == resposta) ||
+	   (valor_sinal == 4 && valor_x/valor_y == resposta)){
+			geraOperacao();
+			mexe_zumbie()
+	}
 	else{
 		if(chances > 0){
 			chances--;
@@ -165,19 +170,8 @@ var d_left, d_top, movimento_left, movimento_top, pos_x, pos_y;
 movimento_left = 5;
 movimento_top = parseInt(Math.random()*3 + 1);
 
-// Definindo direções 1 = positivo e 0 = negativo
-d_left = parseInt(Math.random()*2);
-d_top = parseInt(Math.random()*2);
 
-
-/*
-
-$(document).ready
--- isso é executado assim que a pagina estiver pronta para exibir!
-
-*/
-
-$(document).ready(function(){
+function mexe_zumbie(){
 	/* Atribui os valores iniciais!!!       ----- */
 	var pos_x1 = 10, pos_y1 = 50, pos_x2 = 10, pos_y2 = 100;
 	
@@ -185,23 +179,18 @@ $(document).ready(function(){
 	limite_left = 20;
 	limite_right = $('#field').width() - $('#zumbie_1').width() - 20;
 	
+	pontos = $("#pont_1");
+	
 	/* Essa função abaixo é executada a cada x milisegundos:
 	window.setInterval(function(){-- conteudo --}, tempo x);
-		
 	*/
 	play = window.setInterval(function(){
 			
-		pos_x1 = d_left == 1 ? pos_x1 + movimento_left : pos_x1 - movimento_left;
-		pos_y1 = d_top == 1 ? pos_y1 + movimento_top : pos_y1 - movimento_top;
-				
-		if(pos_x1<limite_left){
-			pos_x1 = pos_x1 + movimento_left * 2;
-			d_left = 1;
-		}
+		pos_x1 = pos_x1 + movimento_left;
 			
-		if(pos_x1>limite_right){
-			pos_x1 = pos_x1 - movimento_left * 2;
-			d_left = 0;
+		if(pos_x1>limite_right-50){
+			/*pos_x1 = pos_x1 - movimento_left * 2;*/
+			movimento_left = 0;
 		}
 				
 		$('#zumbie_1').css({'top':50,'left':pos_x1+'px'});
@@ -227,5 +216,5 @@ $(document).ready(function(){
 			
 	},50);
 	
-});
+}
 

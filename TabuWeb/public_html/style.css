@@ -108,7 +108,7 @@ body {
 	text-align:right;
 	width: 800px; 
 	height:500px; 
-	background:#000; 
+	background-image: url("images/FUNDO01.jpg");
 	position:relative; 
 	overflow:hidden;
 	float:right;
@@ -117,9 +117,7 @@ body {
 #game #field span{
 	display: block; 
 	position: absolute; 
-	background:#fff; 
 	overflow:hidden; 
-	text-indent:-9999px;
 }
 
 #field .zumbie{ height:50px; width:50px;}
@@ -138,9 +136,11 @@ body {
 	overflow:hidden;
 }
 
-
-#page #game #calc p {
-	margin:10px;
+#page #game #calc p , span{
+	margin:20px;
 	margin-top:30px;
 	text-align: left;
 }
+
+
+

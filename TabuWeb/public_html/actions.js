@@ -1,7 +1,7 @@
 
 var jogoPausado = true;
 var colocouNome = false;
-var play;
+var play1, play2, play3, play4;
 var pontos;
 var pos_x1 = 10;
 var limite_zumbie_px = 0;
@@ -239,29 +239,100 @@ function verifica_resultado_conta(resposta){
  * 
 */
 
+function paraJogo(){
+	ganhou = true;
+	clearInterval(play1);
+	clearInterval(play2);
+	clearInterval(play3);
+	clearInterval(play4);
+}
+
 /* ----------------- Mexendo zumbie */
 
 $(document).ready(function(){
 	
 	/*Define Limite do campo!!                -----*/	
 	var limite_right = $('#field').width() - $('#zumbie_1').width() - 20;
+	var pos_x2 = 10, movimento_left_2 = 0, aleatorio1;
+	var pos_x3 = 10, movimento_left_3 = 0, aleatorio3;
+	var pos_x4 = 10, movimento_left_4 = 0, aleatorio4;
+	
 	
 	/*pontos = $("#pont_1");*/
 	
 	/* Essa função abaixo é executada a cada x milisegundos:
 	window.setInterval(function(){-- conteudo --}, tempo x);*/
-	play = window.setInterval(function(){
+	play1 = window.setInterval(function(){
 		pos_x1 = pos_x1 + movimento_left;
 			
-		if(pos_x1 > limite_zumbie_px) movimento_left = 0;
+		if(pos_x1 > limite_zumbie_px || pos_x1 > limite_right-50) movimento_left = 0;
 		if(pos_x1 > limite_right-50 && ganhou == false){
-			movimento_left = 0;
 			alert("Parabéns você ganhou!");
-			ganhou = true;
+			paraJogo();
 		}
 		
 		$('#zumbie_1').css({'top':50,'left':pos_x1+'px'});
 		
+	},50);
+	
+	play2 = window.setInterval(function(){
+		if(!jogoPausado){
+			pos_x2 = pos_x2 + movimento_left_2;
+			
+			aleatorio2 = Math.floor((Math.random() * 100) + 1);
+
+			if(aleatorio2 <= 20) movimento_left_2 = 1;
+			else if(aleatorio2 < 30) movimento_left_2 = 2;
+			else movimento_left_2 = 0;
+			
+			if(pos_x2 > limite_right-50){
+				movimento_left_2 = 0;
+				alert("Zumbie 2 ganhou a partida!");
+				paraJogo();
+			}
+			
+			$('#zumbie_2').css({'top':150,'left':pos_x2+'px'});
+		}
+	},50);
+	
+	play3 = window.setInterval(function(){
+		if(!jogoPausado){
+			pos_x3 = pos_x3 + movimento_left_3;
+			
+			aleatorio3 = Math.floor((Math.random() * 100) + 1);
+
+			if(aleatorio3 < 21) movimento_left_3 = 1;
+			else if(aleatorio3 <= 30) movimento_left_3 = 2;
+			else movimento_left_3 = 0;
+			
+			if(pos_x3 > limite_right-50){
+				movimento_left_3 = 0;
+				alert("Zumbie 3 ganhou a partida!");
+				paraJogo();
+			}
+			
+			$('#zumbie_3').css({'top':250,'left':pos_x3+'px'});
+		}
+	},50);
+	
+	play4 = window.setInterval(function(){
+		if(!jogoPausado){
+			pos_x4 = pos_x4 + movimento_left_4;
+			
+			aleatorio4 = Math.floor((Math.random() * 100) + 1);
+
+			if(aleatorio4 < 20) movimento_left_4 = 1;
+			else if(aleatorio4 < 30) movimento_left_4 = 2;
+			else movimento_left_4 = 0;
+			
+			if(pos_x4 > limite_right-50){
+				movimento_left_4 = 0;
+				alert("Zumbie 4 ganhou a partida!");
+				paraJogo();
+			}
+			
+			$('#zumbie_4').css({'top':350,'left':pos_x4+'px'});
+		}
 	},50);
 });
 

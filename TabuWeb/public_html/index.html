@@ -9,7 +9,7 @@
 <title>TabuWeb</title>
 
 </head>
-<body>
+<body background="images/background.jpg">
 	<div id="page">
 		<div id="head">
 			<table id="table_head">
@@ -106,9 +106,8 @@
 			</div>
 			<div id="calc"> 
 				<span id="resultado" style="visibility: hidden;">
-					<p>Resolva a operaç&atilde;o abaixo:</p>
+					<p>Resolva as operações para avançar o seu zombie:</p>
 					<span id="contas"></span>
-					<br/>
 					<span>
 						<input type="text" id="result" value="" size="1" onkeypress="submitenter('submit_button_res', event)" />
 						<input type="submit" id="submit_button_res" onclick="verifica_resultado_conta(result.value)" />
@@ -116,8 +115,8 @@
 					<br />
 					<span id="mens_erro"></span>
 					<br /><br />
-					<div id="placar">
-						<span id="pont_1">0</span>
+					<div id="placar"><p>Pontos: 
+						<span id="score">0</span>
 					</div>
 				</span>
             </div>

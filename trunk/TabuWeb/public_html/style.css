@@ -1,7 +1,7 @@
 @CHARSET "ISO-8859-1";
 
 body {
-	background-color: #ddddff;
+	background-color: #000;
 	font-family: Tahoma, Geneva, sans-serif;
 	margin:0;
 	padding:0;
@@ -77,7 +77,7 @@ body {
 #head #control_button {
 	font-family: "Agency FB";
 	font-weight: bold;
-	font-size: 30px;
+	font-size: 40px;
 	color: #228888;
 	text-align: right;
 	cursor: default;
@@ -99,7 +99,7 @@ body {
 	text-align:right;
 	width: 1000px; 
 	height:500px; 
-	background:#111; 
+	background:#000; 
 	position:relative; 
 	overflow:hidden;
 }
@@ -129,11 +129,29 @@ body {
 #game #calc{
 	float: right;
 	text-align:left;
+	color: green;
 	width: 200px;
 	height:500px;
-	background:#666;
+	background:#000;
 	position:relative;
 	overflow:hidden;
+}
+
+#game #calc p{
+	font-family: "Agency FB";
+	font-size: 30px;
+}
+
+#game #calc #contas{
+	font-family: "Agency FB";
+	font-size: 40px;
+	font-weight: bold;
+}
+
+#game #calc #score{
+	font-family: "Agency FB";
+	font-size: 30px;
+	font-weight: bold;
 }
 
 #page #game #calc p , span{

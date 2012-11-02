@@ -18,7 +18,7 @@ function receiveUserName(nam) {
 		document.getElementById("submit_name").innerHTML = name + " |";
 		colocouNome = true;
 	} else
-		alert("Seu nome deve ter mais de 2 caracteres\ne iniciar por um caractere alfabético");
+		alert("Seu nome deve ter mais de 2 caracteres e iniciar por um caractere alfabético");
 }
 
 /*
@@ -72,7 +72,7 @@ function mudaDivi() {if (divi == 1) divi = 0;else divi = 1;}
 function mudaOffline(valor) {offline = valor;}
 function mudaCenario(valor) {cenario = valor;}
 
- /* GERA ALEATIAMENTE AS CONTAS! */
+ /* GERA ALEATORIAMENTE AS CONTAS! */
 
 var valor_x = 0, valor_y = 0, valor_sinal = 0, chances = 1;
 
@@ -206,11 +206,13 @@ function verifica_resultado_conta(resposta){
 
 		if(ja_errou_uma_vez == false){
 			limite_zumbie_px += 30; 
-			movimento_left = 2;	
+			movimento_left = 2;
+			pontos.html(parseInt(pontos.html()) + 10);
 		}
 		else{
 			limite_zumbie_px += 20; 
 			movimento_left = 1;	
+			pontos.html(parseInt(pontos.html()) + 5);
 		}
 		geraOperacao();
 	}
@@ -221,7 +223,8 @@ function verifica_resultado_conta(resposta){
 			document.getElementById("mens_erro").innerHTML = "Você errou!";
 		}
 		else{
-			document.getElementById("mens_erro").innerHTML = "Perdeu x pontos!";
+			document.getElementById("mens_erro").innerHTML = "Perdeu 10 pontos!";
+			pontos.html(parseInt(pontos.html()) - 10);
 			geraOperacao();
 		}
 	}
@@ -240,6 +243,7 @@ function verifica_resultado_conta(resposta){
 */
 
 function paraJogo(){
+	jogoPausado = true;
 	ganhou = true;
 	clearInterval(play1);
 	clearInterval(play2);
@@ -253,12 +257,12 @@ $(document).ready(function(){
 	
 	/*Define Limite do campo!!                -----*/	
 	var limite_right = $('#field').width() - $('#zumbie_1').width() - 20;
-	var pos_x2 = 10, movimento_left_2 = 0, aleatorio1;
+	var pos_x2 = 10, movimento_left_2 = 0, aleatorio2;
 	var pos_x3 = 10, movimento_left_3 = 0, aleatorio3;
 	var pos_x4 = 10, movimento_left_4 = 0, aleatorio4;
 	
 	
-	/*pontos = $("#pont_1");*/
+	pontos = $("#score");
 	
 	/* Essa função abaixo é executada a cada x milisegundos:
 	window.setInterval(function(){-- conteudo --}, tempo x);*/

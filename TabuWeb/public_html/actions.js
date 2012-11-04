@@ -1,12 +1,15 @@
 
 var jogoPausado = true;
+var jogoExecutando = false;
 var colocouNome = false;
+var ja_errou_uma_vez = false;
 var play1, play2, play3, play4;
 var pontos;
-var pos_x1 = 10;
 var limite_zumbie_px = 0;
-var movimento_left = 0;
-var ganhou = false;
+	var pos_x1 = 10, movimento_left = 0;
+	var pos_x2 = 10, movimento_left_2 = 0, aleatorio2;
+	var pos_x3 = 10, movimento_left_3 = 0, aleatorio3;
+	var pos_x4 = 10, movimento_left_4 = 0, aleatorio4;
 
 /*
  * Função que substitui o formulário de sumbissão do nome de usuário pelo
@@ -22,26 +25,63 @@ function receiveUserName(nam) {
 }
 
 /*
- * Função que inicia ou acaba um jogo.
+ * Valida ao apertar enter numa caixa do formulario
+*/
+
+function submitenter(subm_button_id, e) {
+	var keycode;
+	
+	if (window.event) keycode = window.event.keyCode;
+	else if (e)	keycode = e.which;
+	else return true;
+
+	if (keycode == 13) {document.getElementById(subm_button_id).onclick();return false;}
+	else return true;
+}
+
+/* Opções, quando mudamos alguma caracteristica do jog, é alterado aqui também! */
+var dificuldade = 1, soma = 1, subt = 1, mult = 1, divi = 1, offline = true, cenario = 1;
+
+/*
+ * Verifica se todos os campos da configuração estão correctos
+ * e se estiver, começa o jogo.
+*/
+function preenchimentoCorrecto() {
+	if ((soma + subt + mult + divi) == 0) alert("Selecione pelo menos uma opção de operação!");
+	else if (!colocouNome) alert("Insira um nome!");
+	else return true;
+	return false;
+}
+
+/*
+ * Função que INICIA, pausa ou retorna o jogo
  */
 function startStopGame() {
 	var option = document.getElementById("control_button").innerHTML;
 	if (option == "START") {
-		verificaPreenchimento(); 
-		/*
-		* Verifica se os dados estao corretos, caso
-		* contrario nao inicia o jogo
-		*/
-	} else if (option == "STOP") {
-		document.getElementById("control_button").innerHTML = "START";
+		if(preenchimentoCorrecto()){
+			document.getElementById("control_button").innerHTML = "PAUSE";
+			jogoPausado = false;
+			jogoExecutando = true;
+			geraOperacao();
+		}
+	} else if (option == "PAUSE") {
+		document.getElementById("control_button").innerHTML = "RESUME";
 		jogoPausado = true;
-	} else {
-		alert("Opção inválida: " + option);
-	}
+		document.getElementById("resultado").style.visibility = "hidden";
+	} else if(option == "RESUME") {
+		document.getElementById("control_button").innerHTML = "PAUSE";
+		jogoPausado = false;
+		geraOperacao();
+	}	
 }
 
+/*
+ * Mostra tela de configurações ou esconde
+*/
+
 function showConfigurations() {
-	if (document.getElementById("control_button").innerHTML == "START") {
+	if (!jogoExecutando) {
 		document.getElementById("configuration_popup").style.visibility = "visible";
 	}
 }
@@ -49,27 +89,12 @@ function hideConfigurations() {
 	document.getElementById("configuration_popup").style.visibility = "hidden";
 }
 
-/* Opções, quando mudamos alguma caracteristica do jog, é alterado aqui também! */
-var dificuldade = 1, soma = 1, subt = 1, mult = 1, divi = 1, offline = 1, cenario = 1;
-
-function verificaPreenchimento() {
-	if ((soma + subt + mult + divi) == 0)
-		alert("Selecione pelo menos uma opção de operação!");
-	else if (!colocouNome)
-		alert("Insira um nome!");
-	else {
-		document.getElementById("control_button").innerHTML = "STOP";
-		jogoPausado = false;
-		geraOperacao();
-	}
-}
-
 function mudaDificuldade(valor) {dificuldade = valor;}
-function mudaSoma() {if (soma == 1) soma = 0;else soma = 1;}
-function mudaSubt() {if (subt == 1) subt = 0;else subt = 1;}
-function mudaMult() {if (mult == 1) mult = 0;else mult = 1;}
-function mudaDivi() {if (divi == 1) divi = 0;else divi = 1;}
-function mudaOffline(valor) {offline = valor;}
+function mudaSoma() {if (soma == 1) soma = 0; else soma = 1;}
+function mudaSubt() {if (subt == 1) subt = 0; else subt = 1;}
+function mudaMult() {if (mult == 1) mult = 0; else mult = 1;}
+function mudaDivi() {if (divi == 1) divi = 0; else divi = 1;}
+function mudaOffline(v) { v == 0? offline = false : offline = true;}
 function mudaCenario(valor) {cenario = valor;}
 
  /* GERA ALEATORIAMENTE AS CONTAS! */
@@ -82,117 +107,43 @@ function geraOperacao() {
 
 	do {
 		numAle1 = Math.floor((Math.random() * 4) + 1);
-		if (numAle1 == 1 && soma == 1)
-			sinal = 1;
-		if (numAle1 == 2 && subt == 1)
-			sinal = 2;
-		if (numAle1 == 3 && mult == 1)
-			sinal = 3;
-		if (numAle1 == 4 && divi == 1)
-			sinal = 4;
+		if (numAle1 == 1 && soma == 1) sinal = 1;
+		if (numAle1 == 2 && subt == 1) sinal = 2;
+		if (numAle1 == 3 && mult == 1) sinal = 3;
+		if (numAle1 == 4 && divi == 1) sinal = 4;
 	} while (sinal == 0);
 
 	numAle1 = Math.random();
 	numAle2 = Math.random();
 
 	if (dificuldade == 1) {
-		if (sinal == 1) {
-			x = Math.floor((numAle1 * 20) + 1);
-			y = Math.floor((numAle2 * 9) + 1);
-		}
-		if (sinal == 2) {
-			x = Math.floor((numAle1 * 20) + 1);
-			y = Math.floor((numAle2 * x) + 1);
-		}
-		if (sinal == 3) {
-			x = Math.floor((numAle1 * 4) + 1);
-			y = Math.floor((numAle2 * 9) + 1);
-		}
-		if (sinal == 4) {
-			y = Math.floor((numAle1 * 5) + 2);
-			d = Math.floor((numAle2 * 10) + 2);
-			x = y * d;
-		}
+		if (sinal == 1) {x = Math.floor((numAle1 * 20) + 1); y = Math.floor((numAle2 * 9) + 1);}
+		if (sinal == 2) {x = Math.floor((numAle1 * 20) + 1); y = Math.floor((numAle2 * x) + 1);}
+		if (sinal == 3) {x = Math.floor((numAle1 * 4) + 1); y = Math.floor((numAle2 * 9) + 1);}
+		if (sinal == 4) {y = Math.floor((numAle1 * 5) + 2); d = Math.floor((numAle2 * 10) + 2); x = y * d;}
 	} else if (dificuldade == 2) {
-		if (sinal == 1) {
-			x = Math.floor((numAle1 * 100) + 1);
-			y = Math.floor((numAle2 * 40) + 1);
-		}
-		if (sinal == 2) {
-			x = Math.floor((numAle1 * 60) + 1);
-			y = Math.floor((numAle2 * x) + 1);
-		}
-		if (sinal == 3) {
-			x = Math.floor((numAle1 * 10) + 1);
-			y = Math.floor((numAle2 * 10) + 1);
-		}
-		if (sinal == 4) {
-			y = Math.floor((numAle1 * 10) + 2);
-			d = Math.floor((numAle2 * 10) + 2);
-			x = y * d;
-		}
+		if (sinal == 1) {x = Math.floor((numAle1 * 100) + 1); y = Math.floor((numAle2 * 40) + 1);}
+		if (sinal == 2) {x = Math.floor((numAle1 * 60) + 1); y = Math.floor((numAle2 * x) + 1);}
+		if (sinal == 3) {x = Math.floor((numAle1 * 10) + 1); y = Math.floor((numAle2 * 10) + 1);}
+		if (sinal == 4) {y = Math.floor((numAle1 * 10) + 2); d = Math.floor((numAle2 * 10) + 2); x = y * d;}
 	} else if (dificuldade == 3) {
-		if (sinal == 1) {
-			x = Math.floor((numAle1 * 300) + 1);
-			y = Math.floor((numAle2 * 100) + 1);
-		}
-		if (sinal == 2) {
-			x = Math.floor((numAle1 * 200) + 1);
-			y = Math.floor((numAle2 * 100) + 1);
-		}
-		if (sinal == 3) {
-			x = Math.floor((numAle1 * 30) + 1);
-			y = Math.floor((numAle2 * 20) + 1);
-		}
-		if (sinal == 4) {
-			y = Math.floor((numAle1 * 50) + 2);
-			d = Math.floor((numAle2 * 10) + 2);
-			x = y * d;
-		}
+		if (sinal == 1) {x = Math.floor((numAle1 * 300) + 1); y = Math.floor((numAle2 * 100) + 1);}
+		if (sinal == 2) {x = Math.floor((numAle1 * 200) + 1); y = Math.floor((numAle2 * 100) + 1);}
+		if (sinal == 3) {x = Math.floor((numAle1 * 30) + 1); y = Math.floor((numAle2 * 20) + 1);}
+		if (sinal == 4) {y = Math.floor((numAle1 * 50) + 2); d = Math.floor((numAle2 * 10) + 2); x = y * d;}
 	} else if (dificuldade == 4) {
-		if (sinal == 1) {
-			x = Math.floor((numAle1 * 800) + 1);
-			y = Math.floor((numAle2 * 500) + 1);
-		}
-		if (sinal == 2) {
-			x = Math.floor((numAle1 * 500) + 1);
-			y = Math.floor((numAle2 * 500) + 1);
-		}
-		if (sinal == 3) {
-			x = Math.floor((numAle1 * 40) + 1);
-			y = Math.floor((numAle2 * 40) + 1);
-		}
-		if (sinal == 4) {
-			y = Math.floor((numAle1 * 100) + 2);
-			d = Math.floor((numAle2 * 20) + 2);
-			x = y * d;
-		}
+		if (sinal == 1) {x = Math.floor((numAle1 * 800) + 1); y = Math.floor((numAle2 * 500) + 1);}
+		if (sinal == 2) {x = Math.floor((numAle1 * 500) + 1); y = Math.floor((numAle2 * 500) + 1);}
+		if (sinal == 3) {x = Math.floor((numAle1 * 40) + 1); y = Math.floor((numAle2 * 40) + 1);}
+		if (sinal == 4) {y = Math.floor((numAle1 * 100) + 2); d = Math.floor((numAle2 * 20) + 2); x = y * d;}
 	}
 
-	valor_x = x;
-	valor_y = y;
+	valor_x = x; valor_y = y;
 	valor_sinal = sinal;
 	chances = 1;
-	ja_errou_uma_vez = false;
 
 	document.getElementById("contas").innerHTML = x + " " + sinalString[sinal - 1] + " " + y + " = ";
 	document.getElementById("resultado").style.visibility = "visible";
-}
-
-function submitenter(subm_button_id, e) {
-	var keycode;
-	if (window.event)
-		keycode = window.event.keyCode;
-	else if (e)
-		keycode = e.which;
-	else
-		return true;
-
-	if (keycode == 13) {
-		document.getElementById(subm_button_id).onclick();
-		return false;
-	} else
-		return true;
 }
 
 function verifica_resultado_conta(resposta){
@@ -208,11 +159,14 @@ function verifica_resultado_conta(resposta){
 			limite_zumbie_px += 30; 
 			movimento_left = 2;
 			pontos.html(parseInt(pontos.html()) + 10);
+			document.getElementById("mens_erro").innerHTML = "Resposta correcta!";
 		}
 		else{
 			limite_zumbie_px += 20; 
 			movimento_left = 1;	
 			pontos.html(parseInt(pontos.html()) + 5);
+			document.getElementById("mens_erro").innerHTML = "Resposta correcta!";
+			ja_errou_uma_vez = false;
 		}
 		geraOperacao();
 	}
@@ -224,6 +178,7 @@ function verifica_resultado_conta(resposta){
 		}
 		else{
 			document.getElementById("mens_erro").innerHTML = "Perdeu 10 pontos!";
+			ja_errou_uma_vez = false;
 			pontos.html(parseInt(pontos.html()) - 10);
 			geraOperacao();
 		}
@@ -243,12 +198,27 @@ function verifica_resultado_conta(resposta){
 */
 
 function paraJogo(){
+	/*RECOMEÇA O JOGO*/
+	document.getElementById("control_button").innerHTML = "START";
+	
+	$('#zumbie_1').css({'top':50,'left':10});
+	$('#zumbie_2').css({'top':150,'left':10});
+	$('#zumbie_3').css({'top':250,'left':10});
+	$('#zumbie_4').css({'top':350,'left':10});
+	
+	limite_zumbie_px = 0;
+	pos_x1 = 10; movimento_left = 0;
+	pos_x2 = 10; movimento_left_2 = 0;
+	pos_x3 = 10; movimento_left_3 = 0;
+	pos_x4 = 10; movimento_left_4 = 0;
+	
+	jogoExecutando = false;
+	ja_errou_uma_vez = false;
 	jogoPausado = true;
-	ganhou = true;
-	clearInterval(play1);
-	clearInterval(play2);
-	clearInterval(play3);
-	clearInterval(play4);
+	document.getElementById("resultado").style.visibility = "hidden";
+	
+	pontos.html(0);
+	document.getElementById("mens_erro").innerHTML = "";
 }
 
 /* ----------------- Mexendo zumbie */
@@ -256,11 +226,9 @@ function paraJogo(){
 $(document).ready(function(){
 	
 	/*Define Limite do campo!!                -----*/	
-	var limite_right = $('#field').width() - $('#zumbie_1').width() - 20;
-	var pos_x2 = 10, movimento_left_2 = 0, aleatorio2;
-	var pos_x3 = 10, movimento_left_3 = 0, aleatorio3;
-	var pos_x4 = 10, movimento_left_4 = 0, aleatorio4;
+	/*var limite_right = $('#field').width() - $('#zumbie_1').width() - 20;*/
 	
+	var limite_right = $('#field').width() - $('#zumbie_1').width() - 20;
 	
 	pontos = $("#score");
 	
@@ -270,7 +238,7 @@ $(document).ready(function(){
 		pos_x1 = pos_x1 + movimento_left;
 			
 		if(pos_x1 > limite_zumbie_px || pos_x1 > limite_right-50) movimento_left = 0;
-		if(pos_x1 > limite_right-50 && ganhou == false){
+		if(pos_x1 > limite_right-50){
 			alert("Parabéns você ganhou!");
 			paraJogo();
 		}
